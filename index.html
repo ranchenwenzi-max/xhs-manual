@@ -148,5 +148,5 @@ document.querySelectorAll('#cover .onlydone').forEach(function(b){
 });
 document.addEventListener('change', function(e){ if(e.target && e.target.matches('input[data-done]')) applyOnlyDone(); });
 applyOnlyDone();
-document.querySelectorAll('input[data-done]').forEach(cb=>cb.addEventListener('change',()=>{const s=doneSet(); cb.checked?s.add(cb.dataset.done):s.delete(cb.dataset.done); saveDone(s); applyDone();}));
+/* DELEGATE_CK */ document.addEventListener('change', function(e){ var cb=e.target; if(!cb || !cb.matches || !cb.matches('input[data-done]')) return; var set=doneSet(); if(cb.checked) set.add(cb.dataset.done); else set.delete(cb.dataset.done); saveDone(set); document.querySelectorAll('input[data-done]').forEach(function(x){ x.checked = set.has(x.dataset.done); }); document.querySelectorAll('#notes .ds.on .donecnt').forEach(function(el){ el.textContent='已抄 '+set.size+' 条'; }); if(window.applyOnlyDone) window.applyOnlyDone(); });
 </script></body></html>
